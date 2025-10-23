@@ -305,19 +305,19 @@ graph TD
 
 ```mermaid
 graph TD
-  A[Início] --> B{Acessa a Tela de Login}
+  A[Inicio] --> B{Acessa tela de login?}
   B --> C[Preencher usuário e senha]
-  C --> D{Validar Credenciais}
+  C --> D{Validar credenciais}
   D -->|Sim| E[Ir para Dashboard]
-  D -->|Não| F[Mostrar erro e retornar ao login]
-  E --> G[Selecionar Produto]
-  G --> H[Escolher Tipo (Entrada / Saída) e Quantidade]
-  H --> I{Tipo == Saída?}
+  D -->|Não| F[Mostrar erro e voltar ao login]
+  E --> G[Selecionar produto]
+  G --> H[Escolher tipo e quantidade]
+  H --> I{Tipo é Saída?}
   I -->|Sim| J[Verificar estoque suficiente]
-  I -->|Não| K[Atualizar estoque (entrada) e registrar movimentação]
+  I -->|Não| K[Registrar entrada e atualizar estoque]
   J -->|Suficiente| K
-  J -->|Insuficiente| L[Exibir erro: Estoque insuficiente]
-  K --> M{currentStock <= minStock?}
+  J -->|Insuficiente| L[Mostrar erro: Estoque insuficiente]
+  K --> M{Estoque menor ou igual ao minimo?}
   M -->|Sim| N[Gerar alerta de estoque baixo]
   M -->|Não| O[Fim]
   N --> O
