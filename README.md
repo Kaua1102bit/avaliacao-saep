@@ -224,12 +224,11 @@ Este documento descreve requisitos funcionais, cenários de teste, infraestrutur
 
 ---
 
-## Diagrama de Classes (Mermaid)
+## Diagramas (Mermaid)
 
-Para visualizar no GitHub, o Markdown abaixo usa Mermaid (GitHub renderiza diagrams Mermaid por padrão).
+### 1. Classe
 
 ```mermaid
-%% Diagrama de classes do Inventario App
 classDiagram
   class User {
     +ObjectId id
@@ -237,8 +236,9 @@ classDiagram
     +String passwordHash
     +String name
     +String role
-    +Date createdAt
-    +Date updatedAt
+    +CRUD()
+    +login()
+    +logout()
   }
 
   class Product {
@@ -252,33 +252,75 @@ classDiagram
     +Number currentStock
     +Number minStock
     +Number price
-    +Date createdAt
-    +Date updatedAt
+    +CRUD()
   }
 
   class StockMovement {
     +ObjectId id
-    +ObjectId productId
     +String type
     +Number quantity
     +Date date
+    +ObjectId productId
     +ObjectId responsibleId
-    +String notes
-    +Date createdAt
-    +Date updatedAt
+    +CRUD()
   }
 
-  %% Relacionamentos com multiplicidade e rótulos
-  User "1" --> "0..*" StockMovement : "responsible"
-  Product "1" --> "0..*" StockMovement : "product"
+  User "1" -- "0..*" StockMovement : records
+  Product "1" -- "0..*" StockMovement : has
+```
 
-  %% Nota com regras (sintaxe Mermaid correta)
-  note right of Product
-    Regras:
-    - currentStock >= 0
-    - minStock >= 0
-    - price >= 0
-  end note
+### 2. Caso de Uso
+
+```mermaid
+graph TD
+  subgraph "Inventario App"
+    u1([Fazer Login])
+    u2([Gerenciar Produtos - CRUD])
+    u3([Gerenciar Estoque - Registrar Movimento])
+    u4([Visualizar Alertas])
+    u5([Visualizar Histórico])
+    u6([Acessar Dashboard])
+  end
+
+  Admin([👤 Administrador])
+  Operador([👷 Operador])
+
+  Admin --> u1
+  Admin --> u2
+  Admin --> u3
+  Admin --> u4
+  Admin --> u5
+  Admin --> u6
+
+  Operador --> u1
+  Operador --> u3
+  Operador --> u4
+  Operador --> u5
+  Operador --> u6
+
+  u3 --> u4
+```
+
+### 3. Fluxo (Registrar Movimentação)
+
+```mermaid
+graph TD
+  A[Início] --> B{Acessa a Tela de Login}
+  B --> C[Preencher usuário e senha]
+  C --> D{Validar Credenciais}
+  D -->|Sim| E[Ir para Dashboard]
+  D -->|Não| F[Mostrar erro e retornar ao login]
+  E --> G[Selecionar Produto]
+  G --> H[Escolher Tipo (Entrada / Saída) e Quantidade]
+  H --> I{Tipo == Saída?}
+  I -->|Sim| J[Verificar estoque suficiente]
+  I -->|Não| K[Atualizar estoque (entrada) e registrar movimentação]
+  J -->|Suficiente| K
+  J -->|Insuficiente| L[Exibir erro: Estoque insuficiente]
+  K --> M{currentStock <= minStock?}
+  M -->|Sim| N[Gerar alerta de estoque baixo]
+  M -->|Não| O[Fim]
+  N --> O
 ```
 
 
