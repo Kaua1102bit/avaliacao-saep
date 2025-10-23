@@ -282,8 +282,8 @@ graph TD
     u6([Acessar Dashboard])
   end
 
-  Admin([👤 Administrador])
-  Operador([👷 Operador])
+  Admin([Administrador])
+  Operador([ Operador])
 
   Admin --> u1
   Admin --> u2
@@ -323,4 +323,40 @@ graph TD
   N --> O
 ```
 
+## RESULTADOS E ENTREGAS (resumo simples)
+
+1. Lista de requisitos funcionais
+- Já documentada nas seções 1–10 acima.
+
+2. Diagrama entidade-relacionamento (DER)
+- Diagramas mermaid presentes nesta mesma README.
+
+3. Script de criação e população do banco
+- Arquivo sugerido: scripts/init-db.js (Node). Executar: MONGODB_URI=<uri> node scripts/init-db.js
+
+4. Interface de autenticação (login)
+- Página: /login
+- API: POST /api/auth/login (retorna JWT) e POST /api/auth/logout
+- Em falha, exibir motivo (usuário não encontrado | senha incorreta | conta desativada) e permitir nova tentativa.
+
+5. Interface principal (dashboard)
+- Página: /dashboard — mostra nome do usuário e botão logout; links para /products e /stock.
+
+6. Interface cadastro de produto (/products)
+- Listagem em tabela, busca, criar (POST), editar (PUT) e excluir (DELETE).
+- Validações: campos obrigatórios e regras (price>0, minStock>=0, currentStock>=0).
+
+7. Interface gestão de estoque (/stock)
+- Listar produtos em ordem alfabética; registrar movimentações (entrada/saída); bloquear saída se estoque insuficiente; gerar alerta se currentStock <= minStock.
+
+8. Descritivo de testes
+- Ferramentas: Jest (unit), Cypress (E2E), Postman (API).
+- Testes principais: autenticação, CRUD produtos, movimentações e regras de estoque.
+
+9. Requisitos de infraestrutura
+- SGBD: MongoDB 7+
+- Runtime: Node.js 18+ (TS 5+ recomendado)
+- Frontend: Next.js 16 (React 19)
+- SO de desenvolvimento: Windows 11
+- Variáveis: MONGODB_URI, JWT_SECRET, NODE_ENV, PORT
 
