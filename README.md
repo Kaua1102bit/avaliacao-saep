@@ -224,4 +224,60 @@ Este documento descreve requisitos funcionais, cenários de teste, infraestrutur
 
 ---
 
+## Diagrama de Classes (Mermaid)
+
+```mermaid
+%% Diagrama de classes do Inventario App
+classDiagram
+  class User {
+    +ObjectId id
+    +String username
+    +String password (hash)
+    +String name
+    +String role
+    +Date createdAt
+    +Date updatedAt
+  }
+
+  class Product {
+    +ObjectId id
+    +String name
+    +String description
+    +String category
+    +String size
+    +Number weight
+    +String material
+    +Number currentStock
+    +Number minStock
+    +Number price
+    +Date createdAt
+    +Date updatedAt
+  }
+
+  class StockMovement {
+    +ObjectId id
+    +ObjectId product
+    +String type  // 'entrada' | 'saida'
+    +Number quantity
+    +Date date
+    +ObjectId responsible
+    +String notes
+    +Date createdAt
+    +Date updatedAt
+  }
+
+  %% Relacionamentos
+  User "1" -- "0..*" StockMovement : responsible
+  Product "1" -- "0..*" StockMovement : product
+
+  %% Observações
+  note right of Product
+    Regras:
+    - currentStock >= 0
+    - minStock >= 0
+    - price >= 0
+  end
+
+```
+
 
