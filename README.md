@@ -234,7 +234,7 @@ classDiagram
   class User {
     +ObjectId id
     +String username
-    +String password (hash)
+    +String passwordHash
     +String name
     +String role
     +Date createdAt
@@ -258,21 +258,21 @@ classDiagram
 
   class StockMovement {
     +ObjectId id
-    +ObjectId product
-    +String type  // 'entrada' | 'saida'
+    +ObjectId productId
+    +String type
     +Number quantity
     +Date date
-    +ObjectId responsible
+    +ObjectId responsibleId
     +String notes
     +Date createdAt
     +Date updatedAt
   }
 
-  %% Relacionamentos
-  User "1" -- "0..*" StockMovement : responsible
-  Product "1" -- "0..*" StockMovement : product
+  %% Relacionamentos com multiplicidade e rótulos
+  User "1" --> "0..*" StockMovement : "responsible"
+  Product "1" --> "0..*" StockMovement : "product"
 
-  %% Observações (nota multiline correta)
+  %% Nota com regras (sintaxe Mermaid correta)
   note right of Product
     Regras:
     - currentStock >= 0
