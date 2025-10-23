@@ -226,6 +226,8 @@ Este documento descreve requisitos funcionais, cenários de teste, infraestrutur
 
 ## Diagrama de Classes (Mermaid)
 
+Para visualizar no GitHub, o Markdown abaixo usa Mermaid (GitHub renderiza diagrams Mermaid por padrão).
+
 ```mermaid
 %% Diagrama de classes do Inventario App
 classDiagram
@@ -270,14 +272,13 @@ classDiagram
   User "1" -- "0..*" StockMovement : responsible
   Product "1" -- "0..*" StockMovement : product
 
-  %% Observações
+  %% Observações (nota multiline correta)
   note right of Product
     Regras:
     - currentStock >= 0
     - minStock >= 0
     - price >= 0
-  end
-
+  end note
 ```
 
 
